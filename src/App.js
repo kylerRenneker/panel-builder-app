@@ -2,6 +2,7 @@ import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import Header from './components/Header/Header'
 import LandingPage from './routes/LandingPage/LandingPage';
+import ColorPickerForm from './routes/ColorPickerForm/ColorPickerForm';
 
 function App() {
   return (
@@ -9,7 +10,8 @@ function App() {
       <Header />
 
       <Switch>
-        <Route path='/' component={LandingPage} />
+        <Route exact path='/' component={LandingPage} />
+        <Route path='/ColorPicker' component={ColorPickerForm} />
       </Switch>
 
     </main>
