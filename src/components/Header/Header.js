@@ -1,9 +1,14 @@
-import React from 'react';
+import React from 'react'
+import styled from 'styled-components'
+
+const Nav = styled.nav`
+    position: fixed;
+`
 
 export default function Header() {
     return (
-        <nav>
+        <Nav>
             <span>This is the navbar</span>
-        </nav>
+        </Nav>
     )
 }
