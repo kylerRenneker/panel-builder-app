@@ -1,14 +1,12 @@
-import React, { useState, useContext, useEffect } from 'react'
-import { withRouter } from 'react-router-dom'
+import React, { useContext, useEffect } from 'react'
 import styled, { css } from 'styled-components'
 import PanelContext from '../../contexts/PanelContext'
 
-const Form = styled.form`
-    font-size: 1.4rem;
+const SizeForm = styled.form`
     display: flex;
-    flex-direction: column;
+    flex-direction:column;
+    font-size: 1.4rem;
     grid-area: size;
-    ${p => p.showSizeForm ? null : css`display: none;`}
 `
 
 const Label = styled.label`
@@ -67,7 +65,7 @@ function PanelSizeForm(props) {
 
 
     return (
-        <Form onSubmit={handlePanelSizeSubmit} showSizeForm={panel.showSizeForm}>
+        <SizeForm onSubmit={handlePanelSizeSubmit} showSizeForm={panel.showSizeForm}>
             {panel.error ? <p>{panel.error}</p> : null}
             <Label htmlFor='length_input'>Input Panel Length: </Label>
             <Input id='length_input' name='panel_length' type='number' />
@@ -76,8 +74,8 @@ function PanelSizeForm(props) {
             <Input id='width_input' name='panel_width' type='number' />
 
             <Button type='submit'>Next</Button>
-        </Form>
+        </SizeForm>
     )
 }
 
-export default withRouter(PanelSizeForm)
+export default PanelSizeForm
