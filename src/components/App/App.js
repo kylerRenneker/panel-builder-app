@@ -24,23 +24,28 @@ const PanelContainer = styled.div`
   display: grid;
   grid-template-columns: 1fr 2fr 2fr;
   grid-template-rows: auto;
-  ${props =>
-    props.panel.showSizeForm ?
-      css`
+  ${props => changeLayout(props)}
+  
+`
+
+function changeLayout(props) {
+  const { panel } = props
+  if (panel.showSizeForm) {
+    return css`
       grid-template-areas:
         "size size size"
         "size size size"
         "size size size";
-    `:
-      css`
-      grid-template-areas:
-        "size color color"
-        "size color color"
-        "size color color";
     `
+  } else {
+    return css`
+      grid-template-areas:
+      "size color color"
+      "size color color"
+      "size color color";
+  `
   }
-  
-`
+}
 
 function App() {
   const panel = useContext(PanelContext)
