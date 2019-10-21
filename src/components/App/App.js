@@ -11,21 +11,21 @@ const Main = styled.main`
   height: 100vh;
   margin: auto;
   padding: 20px;
-  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `
 
 const PanelContainer = styled.div`
-  width: 65%;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   background-color: ${props => (props.background ? 'grey' : null)};
   display: grid;
   grid-template-columns: 1fr 2fr 2fr;
   grid-template-rows: auto;
   ${props => changeLayout(props)}
-  
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0px 0px 80px #404040;
+  background-color: whitesmoke;
 `
 
 function changeLayout(props) {
@@ -37,13 +37,19 @@ function changeLayout(props) {
         "size size size"
         "size size size";
     `
-  } else {
+  } else if (panel.showColorPicker) {
     return css`
       grid-template-areas:
       "size color color"
       "size color color"
       "size color color";
   `
+  } else {
+    return css`
+    grid-template-areas: 
+    "size panel panel"
+    "color panel panel";
+    `
   }
 }
 
@@ -51,15 +57,16 @@ function App() {
   const panel = useContext(PanelContext)
 
   return (
-    <Main>
+    <>
       <Header />
-      <PanelContainer panel={panel}>
-        <PanelSizeForm />
-        <ColorPickerForm />
-        <PanelMain />
-      </PanelContainer>
-
-    </Main>
+      <Main>
+        <PanelContainer panel={panel}>
+          <PanelSizeForm />
+          <ColorPickerForm />
+          <PanelMain />
+        </PanelContainer>
+      </Main>
+    </>
   );
 }
 

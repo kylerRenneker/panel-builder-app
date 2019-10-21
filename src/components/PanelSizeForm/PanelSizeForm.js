@@ -5,8 +5,8 @@ import PanelContext from '../../contexts/PanelContext'
 const SizeForm = styled.form`
     display: flex;
     flex-direction:column;
-    font-size: 1.4rem;
     grid-area: size;
+    margin-bottom: 20px;
 `
 
 const Label = styled.label`
@@ -22,14 +22,15 @@ const Input = styled.input`
 
 const Button = styled.button`
     width: 100px;
-    margin: auto;
     height: 32px;
-    border-radius: 20px;
-    background-color: #00b4ff;
-    border: none;
-    box-shadow: 1px 5px 5px #dedede;
-    font-size: 1.2rem;
-
+    border-radius: 5px;
+    background-color: #373F51;
+    border: 2px solid #11b5f6;
+    box-shadow: 1px 5px 5px #b7b7b7;
+    font-size: 1rem;
+    color: #11b5f6;
+    margin: 0 auto;
+    font-weight: 600;
     :hover {
         box-shadow: none;
         transition: 0.5s;

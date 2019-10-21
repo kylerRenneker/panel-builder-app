@@ -9,6 +9,7 @@ export const PanelProvider = (props) => {
     const [showSizeForm, setShowSizeForm] = useState(null)
     const [showColorPicker, setShowColorPicker] = useState(null)
     const [showPanel, setShowPanel] = useState(null)
+    const [panelColor, setPanelColor] = useState(null)
 
     const setErrorFn = error => {
         setError(error)
@@ -30,6 +31,10 @@ export const PanelProvider = (props) => {
         setShowPanel(bool)
     }
 
+    const setPanelColorFn = (color) => {
+        setPanelColor(color)
+    }
+
     const value = {
         error: error,
         setError: setErrorFn,
@@ -39,7 +44,9 @@ export const PanelProvider = (props) => {
         showColorPicker: showColorPicker,
         setShowColorPicker: setShowColorPickerFn,
         showPanel: showPanel,
-        setShowPanel: setShowPanelFn
+        setShowPanel: setShowPanelFn,
+        panelColor: panelColor,
+        setPanelColor: setPanelColorFn
     }
 
     return (
