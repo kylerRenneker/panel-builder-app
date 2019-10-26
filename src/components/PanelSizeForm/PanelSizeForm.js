@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from 'react'
 import styled, { css } from 'styled-components'
 import PanelContext from '../../contexts/PanelContext'
+import { Error } from '../Error/Error'
 
 const SizeForm = styled.form`
     display: flex;
@@ -11,13 +12,16 @@ const SizeForm = styled.form`
 
 const Label = styled.label`
     margin-bottom: 10px;
+    font-size: 1.4rem;
 `
 
 const Input = styled.input`
     border-radius: 3px;
     border: 1px solid #d6d6d6;
-    height: 1.5rem;
+    height: 2rem;
     margin-bottom: 10px;
+    font-size: 1.4rem;
+    padding: 5px;
 `
 
 const Button = styled.button`
@@ -55,6 +59,7 @@ function PanelSizeForm(props) {
         } else if (panel_width.value < 4 || panel_width.value > 11) {
             panel.setError('Width muse be between 4 and 11 inches')
         } else {
+            panel.clearError(null)
             panel.setShowSizeForm(false)
             panel.setShowColorPicker(true)
 
@@ -67,7 +72,7 @@ function PanelSizeForm(props) {
 
     return (
         <SizeForm onSubmit={handlePanelSizeSubmit} showSizeForm={panel.showSizeForm}>
-            {panel.error ? <p>{panel.error}</p> : null}
+            {panel.error ? <Error>{panel.error}</Error> : null}
             <Label htmlFor='length_input'>Input Panel Length: </Label>
             <Input id='length_input' name='panel_length' type='number' />
 
