@@ -1,57 +1,57 @@
-import React, { useState } from 'react'
+import React, { useState } from "react";
 
-const PanelContext = React.createContext({})
+const PanelContext = React.createContext({});
 
-export default PanelContext
+export default PanelContext;
 
-export const PanelProvider = (props) => {
-    const [error, setError] = useState(null)
-    const [showSizeForm, setShowSizeForm] = useState(null)
-    const [showColorPicker, setShowColorPicker] = useState(null)
-    const [showPanel, setShowPanel] = useState(null)
-    const [panelColor, setPanelColor] = useState(null)
+export const PanelProvider = props => {
+  const [error, setError] = useState(null);
+  const [showSizeForm, setShowSizeForm] = useState(null);
+  const [showColorPicker, setShowColorPicker] = useState(null);
+  const [showPanel, setShowPanel] = useState(null);
+  const [panelColor, setPanelColor] = useState(null);
 
-    const setErrorFn = error => {
-        setError(error)
-    }
+  const setErrorFn = error => {
+    setError(error);
+  };
 
-    const clearError = () => {
-        setError(null)
-    }
+  const clearError = () => {
+    setError(null);
+  };
 
-    const setShowSizeFormFn = (bool) => {
-        setShowSizeForm(bool)
-    }
+  const setShowSizeFormFn = bool => {
+    setShowSizeForm(bool);
+  };
 
-    const setShowColorPickerFn = (bool) => {
-        setShowColorPicker(bool)
-    }
+  const setShowColorPickerFn = bool => {
+    setShowColorPicker(bool);
+  };
 
-    const setShowPanelFn = (bool) => {
-        setShowPanel(bool)
-    }
+  const setShowPanelFn = bool => {
+    setShowPanel(bool);
+  };
 
-    const setPanelColorFn = (color) => {
-        setPanelColor(color)
-    }
+  const setPanelColorFn = color => {
+    setPanelColor(color);
+  };
 
-    const value = {
-        error: error,
-        setError: setErrorFn,
-        clearError: clearError,
-        showSizeForm: showSizeForm,
-        setShowSizeForm: setShowSizeFormFn,
-        showColorPicker: showColorPicker,
-        setShowColorPicker: setShowColorPickerFn,
-        showPanel: showPanel,
-        setShowPanel: setShowPanelFn,
-        panelColor: panelColor,
-        setPanelColor: setPanelColorFn
-    }
+  const value = {
+    error: error,
+    setError: setErrorFn,
+    clearError: clearError,
+    showSizeForm: showSizeForm,
+    setShowSizeForm: setShowSizeFormFn,
+    showColorPicker: showColorPicker,
+    setShowColorPicker: setShowColorPickerFn,
+    showPanel: showPanel,
+    setShowPanel: setShowPanelFn,
+    panelColor: panelColor,
+    setPanelColor: setPanelColorFn
+  };
 
-    return (
-        <PanelContext.Provider value={value}>
-            {props.children}
-        </PanelContext.Provider>
-    )
-}
+  return (
+    <PanelContext.Provider value={value}>
+      {props.children}
+    </PanelContext.Provider>
+  );
+};
