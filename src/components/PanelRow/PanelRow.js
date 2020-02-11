@@ -7,9 +7,10 @@ function PanelRow(props) {
     const item_id = e.dataTransfer.getData("item_id");
 
     const item = document.getElementById(item_id);
-    item.style.display = "inline-block";
-
-    e.target.appendChild(item);
+    if (item) {
+      item.style.display = "inline-block";
+      e.target.appendChild(item);
+    }
   };
 
   const dragOver = e => {

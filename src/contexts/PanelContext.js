@@ -10,6 +10,32 @@ export const PanelProvider = props => {
   const [showColorPicker, setShowColorPicker] = useState(null);
   const [showPanel, setShowPanel] = useState(null);
   const [panelColor, setPanelColor] = useState(null);
+  const [panelSize, setPanelSize] = useState({
+    width: null,
+    length: null
+  });
+  const [panelRows, setPanelRows] = useState(null);
+  const [panelItems, setPanelItems] = useState([]);
+  const [updatePanel, setUpdatePanel] = useState(true);
+
+  const updatePanelFn = bool => {
+    setUpdatePanel(bool);
+  };
+
+  const setPanelItemsFn = items => {
+    setPanelItems(items);
+  };
+
+  const setPanelSizeFn = size => {
+    setPanelSize({
+      width: size.width,
+      length: size.length
+    });
+  };
+
+  const setPanelRowsFn = num => {
+    setPanelRows(num);
+  };
 
   const setErrorFn = error => {
     setError(error);
@@ -46,7 +72,15 @@ export const PanelProvider = props => {
     showPanel: showPanel,
     setShowPanel: setShowPanelFn,
     panelColor: panelColor,
-    setPanelColor: setPanelColorFn
+    setPanelColor: setPanelColorFn,
+    panelSize: panelSize,
+    setPanelSize: setPanelSizeFn,
+    panelRows: panelRows,
+    setPanelRows: setPanelRowsFn,
+    panelItems: panelItems,
+    setPanelItems: setPanelItemsFn,
+    updatePanel: updatePanel,
+    setUpdatePanel: updatePanelFn
   };
 
   return (
