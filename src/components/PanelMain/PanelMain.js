@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 import styled from "styled-components";
 import PanelContext from "../../contexts/PanelContext";
 import PanelRow from "../PanelRow/PanelRow";
-import PanelItem from "../PanelItem/PanelItem";
+import { Item } from "../PanelItem/PanelItem";
 import html2canvas from "html2canvas";
 import { ItemStore } from "../../assets/ITEMSTORE";
 
@@ -26,18 +26,15 @@ const PanelSection = styled.section`
   flex-direction: column;
 `;
 
-const Item = styled(PanelItem)`
-  display: inline-block;
-  margin: auto 15px;
-  cursor: grab;
-`;
-
 const ItemImg = styled.img`
   height: 60px;
   pointer-events: none;
 `;
 
 const ItemOptions = styled(PanelRow)`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
   border: 3px dotted;
   margin: 20px;
   width: calc(100% - 40px);
@@ -120,23 +117,25 @@ const Toggle = styled.input`
 
 export default function PanelMain() {
   const [spaceEvenly, setSpaceEvenly] = useState(false);
+  const [updateItems, setUpdateItems] = useState(false);
   const {
     showPanel,
     panelColor,
     panelSize,
     panelRows,
     panelItems,
-    setPanelItems,
-    updatePanel,
-    setUpdatePanel
+    setPanelItems
   } = useContext(PanelContext);
 
   useEffect(() => {
-    // if (updatePanel) {
+    console.log("useEffect ran");
+    console.log(panelItems);
     setPanelItems(ItemStore);
-
-    // }
-  }, []);
+    if (updateItems) {
+      setPanelItems(ItemStore);
+      setUpdateItems(false);
+    }
+  });
 
   const submitPanel = e => {
     e.preventDefault();
@@ -177,9 +176,17 @@ export default function PanelMain() {
   };
 
   const RenderItems = () => {
+    console.log("rendering items");
+
     const itemList = panelItems.map(item => {
       return (
-        <Item id={item.id} key={item.id} className="item" draggable="true">
+        <Item
+          id={item.id}
+          key={item.id}
+          className="item"
+          draggable="true"
+          updateItems={setUpdateItems}
+        >
           <ItemImg src={item.src}></ItemImg>
         </Item>
       );
@@ -198,11 +205,8 @@ export default function PanelMain() {
 
   return (
     <PanelSection show={showPanel}>
-      {/* <PanelOptions></PanelOptions>
-      <Panel show={showPanel} color={panelColor}></Panel> */}
-
       <ItemOptions id="items-container-1" className="item-section">
-        {updatePanel ? RenderItems() : null}
+        {RenderItems()}
       </ItemOptions>
       <div className="panel-controls">
         <ul>
@@ -218,7 +222,7 @@ export default function PanelMain() {
         </ul>
       </div>
       <Panel show={showPanel} rows={panelRows} color={panelColor} id="panel">
-        {panelRows ? renderRows() : null}
+        {renderRows()}
       </Panel>
       <SubmitButton onClick={submitPanel}>Get Quote Request</SubmitButton>
     </PanelSection>

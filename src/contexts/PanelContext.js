@@ -16,11 +16,6 @@ export const PanelProvider = props => {
   });
   const [panelRows, setPanelRows] = useState(null);
   const [panelItems, setPanelItems] = useState([]);
-  const [updatePanel, setUpdatePanel] = useState(true);
-
-  const updatePanelFn = bool => {
-    setUpdatePanel(bool);
-  };
 
   const setPanelItemsFn = items => {
     setPanelItems(items);
@@ -78,9 +73,7 @@ export const PanelProvider = props => {
     panelRows: panelRows,
     setPanelRows: setPanelRowsFn,
     panelItems: panelItems,
-    setPanelItems: setPanelItemsFn,
-    updatePanel: updatePanel,
-    setUpdatePanel: updatePanelFn
+    setPanelItems: setPanelItemsFn
   };
 
   return (

@@ -1,43 +1,42 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import styled from "styled-components";
-import { useId } from "react-id-generator";
-import { ItemStore } from "../../assets/ITEMSTORE";
 import PanelContext from "../../contexts/PanelContext";
+import AddItem from "../AddItem/AddItem";
+
+export const Item = styled(PanelItem)`
+  display: inline-block;
+  margin: auto 15px;
+  cursor: grab;
+  position: relative;
+  padding-top: 30px;
+  margin-top: 0;
+`;
 
 export default function PanelItem(props) {
-  const [randId] = useId();
-  const { panelItems, setPanelItems, updatePanel, setUpdatePanel } = useContext(
-    PanelContext
-  );
+  const { panelItems, setPanelItems } = useContext(PanelContext);
+  const [showAddBtn, setShowAddBtn] = useState(false);
 
   const dragStart = e => {
-    const target = e.target;
     console.log("drag starting");
+    const target = e.target;
     e.dataTransfer.setData("item_id", target.id);
+  };
 
-    setTimeout(() => {
-      target.style.display = "none";
-    }, 0);
-    setTimeout(() => {
-      console.log(ItemStore);
-    }, 2000);
-
-    const item = document.getElementById(target.id);
-    const clone = item.cloneNode(true);
-    clone.id = randId;
-
-    ItemStore.push({
-      id: clone.id,
-      src: clone.children[0].src,
-      key: randId
-    });
-
-    setPanelItems(ItemStore);
-    setUpdatePanel(true);
+  const dragEnd = () => {
+    props.updateItems(true);
   };
 
   const dragOver = e => {
     e.stopPropagation();
+  };
+
+  const showAddItemBtn = () => {
+    console.log(props.id);
+    setShowAddBtn(true);
+  };
+
+  const removeAddItemBtn = () => {
+    setShowAddBtn(false);
   };
 
   return (
@@ -47,7 +46,12 @@ export default function PanelItem(props) {
       draggable={props.draggable}
       onDragStart={dragStart}
       onDragOver={dragOver}
+      onMouseOver={showAddItemBtn}
+      onMouseLeave={removeAddItemBtn}
     >
+      {showAddBtn ? (
+        <AddItem itemId={props.id} updateItems={props.updateItems} />
+      ) : null}
       {props.children}
     </div>
   );
