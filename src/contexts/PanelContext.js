@@ -16,15 +16,20 @@ export const PanelProvider = props => {
   });
   const [panelRows, setPanelRows] = useState(null);
   const [panelItems, setPanelItems] = useState([]);
+  const [updateItems, setUpdateItems] = useState(false);
+
+  const setUpdateItemsFn = bool => {
+    setUpdateItems(bool);
+  };
 
   const setPanelItemsFn = items => {
     setPanelItems(items);
   };
 
-  const setPanelSizeFn = size => {
+  const setPanelSizeFn = e => {
     setPanelSize({
-      width: size.width,
-      length: size.length
+      ...panelSize,
+      [e.target.name]: e.target.value
     });
   };
 
@@ -73,7 +78,9 @@ export const PanelProvider = props => {
     panelRows: panelRows,
     setPanelRows: setPanelRowsFn,
     panelItems: panelItems,
-    setPanelItems: setPanelItemsFn
+    setPanelItems: setPanelItemsFn,
+    updateItems: updateItems,
+    setUpdateItems: setUpdateItemsFn
   };
 
   return (

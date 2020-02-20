@@ -54,6 +54,7 @@ function PanelSizeForm(props) {
   const panel = useContext(PanelContext);
 
   useEffect(() => {
+    console.log("panelSize rendered");
     panel.clearError(null);
     panel.setShowSizeForm(true);
   }, []);
@@ -61,26 +62,21 @@ function PanelSizeForm(props) {
   const handlePanelSizeSubmit = ev => {
     ev.preventDefault();
 
-    const { panel_length, panel_width, num_of_rows } = ev.target;
+    const { length, width, num_of_rows } = ev.target;
 
-    if (panel_length.value < 5 || panel_length.value > 19.5) {
+    if (length.value < 5 || length.value > 19.5) {
       panel.setError("Length must be between 5 and 19.5 inches");
-    } else if (panel_width.value < 4 || panel_width.value > 11) {
+    } else if (width.value < 4 || width.value > 11) {
       panel.setError("Width must be between 4 and 11 inches");
     } else {
       panel.clearError(null);
       panel.setShowSizeForm(false);
       panel.setShowColorPicker(true);
 
-      panel.setPanelSize({
-        width: panel_width.value,
-        height: panel_width.value
-      });
-
       panel.setPanelRows(num_of_rows.value);
 
-      sessionStorage.setItem("panel_length", panel_length.value);
-      sessionStorage.setItem("panel_width", panel_width.value);
+      sessionStorage.setItem("length", length.value);
+      sessionStorage.setItem("width", width.value);
       sessionStorage.setItem("panel_rows", num_of_rows.value);
     }
   };
@@ -90,6 +86,19 @@ function PanelSizeForm(props) {
     sessionStorage.setItem("panel_rows", e.target.value);
   };
 
+  const handleSizeChange = e => {
+    const target = e.target;
+    const name = target.name;
+
+    if (name == "length") {
+      panel.setPanelSize(e);
+    } else if (name == "width") {
+      panel.setPanelSize(e);
+    }
+
+    console.log(panel.panelSize);
+  };
+
   return (
     <SizeForm
       onSubmit={handlePanelSizeSubmit}
@@ -97,10 +106,20 @@ function PanelSizeForm(props) {
     >
       {panel.error ? <Error>{panel.error}</Error> : null}
       <Label htmlFor="length_input">Input Panel Length: </Label>
-      <Input id="length_input" name="panel_length" type="number" />
+      <Input
+        onChange={handleSizeChange}
+        id="length_input"
+        name="length"
+        type="number"
+      />
 
       <Label htmlFor="width_input">Input Panel Width: </Label>
-      <Input id="width_input" name="panel_width" type="number" />
+      <Input
+        onChange={handleSizeChange}
+        id="width_input"
+        name="width"
+        type="number"
+      />
 
       <Label htmlFor="num_of_rows">Number of rows: </Label>
       <Select id="num_of_rows" onChange={setRows}>

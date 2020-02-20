@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "html2canvas": "^1.0.0-rc.5",
+    "node-sass": "^4.13.1",
     "react": "^16.10.1",
     "react-dnd": "^10.0.2",
     "react-dom": "^16.10.1",

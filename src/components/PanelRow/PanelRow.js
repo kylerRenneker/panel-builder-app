@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 
 function PanelRow(props) {
+  const [active, setActive] = useState(false);
+
   const drop = e => {
     e.preventDefault();
 
@@ -19,6 +21,11 @@ function PanelRow(props) {
 
   const dragOver = e => {
     e.preventDefault();
+    e.stopPropagation();
+  };
+
+  const handleRowSelection = e => {
+    const target = e.target;
   };
 
   return (
@@ -27,6 +34,7 @@ function PanelRow(props) {
       className={props.className}
       onDrop={drop}
       onDragOver={dragOver}
+      onClick={props.selectedRow}
     >
       {props.children}
     </div>

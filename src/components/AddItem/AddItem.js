@@ -29,16 +29,16 @@ const AddBtn = styled.div`
 `;
 
 export default function AddItem(props) {
-  const { setPanelItems } = useContext(PanelContext);
-
   const handleAddItem = () => {
     const item = document.getElementById(props.itemId);
+    const styles = getComputedStyle(item.children[1]);
+
     ItemStore.push({
       id: generateRandId(),
       src: item.children[1].src,
-      key: item.id
+      key: item.id,
+      height: styles.height
     });
-    setPanelItems(ItemStore);
     props.updateItems(true);
   };
 

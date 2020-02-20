@@ -56,6 +56,8 @@ function changeLayout(props) {
 function App() {
   const panel = useContext(PanelContext);
 
+  console.log("entire app rerender");
+
   return (
     <>
       <Header />

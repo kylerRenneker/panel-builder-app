@@ -1,11 +1,12 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import styled from "styled-components";
 import PanelContext from "../../contexts/PanelContext";
 import AddItem from "../AddItem/AddItem";
 
 export const Item = styled(PanelItem)`
   display: inline-block;
-  margin: auto 15px;
+  margin: 0px 15px;
+  height: fit-content;
   cursor: grab;
   position: relative;
   padding-top: 30px;
@@ -13,8 +14,9 @@ export const Item = styled(PanelItem)`
 `;
 
 export default function PanelItem(props) {
-  const { panelItems, setPanelItems } = useContext(PanelContext);
   const [showAddBtn, setShowAddBtn] = useState(false);
+
+  console.log("PanelItem rendered");
 
   const dragStart = e => {
     console.log("drag starting");
@@ -31,7 +33,6 @@ export default function PanelItem(props) {
   };
 
   const showAddItemBtn = () => {
-    console.log(props.id);
     setShowAddBtn(true);
   };
 

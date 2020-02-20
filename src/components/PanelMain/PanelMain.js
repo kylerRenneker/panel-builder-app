@@ -2,21 +2,32 @@ import React, { useContext, useState, useEffect } from "react";
 import styled from "styled-components";
 import PanelContext from "../../contexts/PanelContext";
 import PanelRow from "../PanelRow/PanelRow";
-import { Item } from "../PanelItem/PanelItem";
 import html2canvas from "html2canvas";
-import { ItemStore } from "../../assets/ITEMSTORE";
+import PanelItems from "../PanelItems/PanelItems";
+import "./_rangSlider.scss";
 
 const Panel = styled.div`
   display: ${p => (p.show ? null : `none`)};
   background-color: ${p => p.color};
-  width: 600px;
-  height: 200px;
+  ${p => {
+    const width = p.size.width;
+    const length = p.size.length;
+
+    return `min-width: ${length * 42}px;
+        min-height: ${width * 42}px;
+        max-width: ${length * 42}px;
+        max-height: ${width * 42}px;
+        width: ${length * 42}px;
+        height: ${width * 42}px;
+      `;
+  }}
   margin: auto;
   box-shadow: 0px 15px 25px #505050;
   display: flex;
   flex-direction: column;
   ${p => (p.rows == 1 ? "justify-content: center" : null)}
   align-items: center;
+  justify-content: center;
   padding: 10px;
 `;
 
@@ -24,11 +35,6 @@ const PanelSection = styled.section`
   display: ${p => (p.show ? `flex` : `none`)};
   grid-area: panel;
   flex-direction: column;
-`;
-
-const ItemImg = styled.img`
-  height: 60px;
-  pointer-events: none;
 `;
 
 const ItemOptions = styled(PanelRow)`
@@ -44,12 +50,20 @@ const ItemOptions = styled(PanelRow)`
 
 const ItemRows = styled(PanelRow)`
   width: 100%;
-  height: 50%;
+  min-height: 25%;
+  padding-top: 4px;
+  align-items: center;
   display: flex;
-  ${p => (p.spaceBetween ? `justify-content: space-between;` : null)}
-  border: 1px dashed grey;
+  border: ${p =>
+    p.id === p.row ? "3px solid rgba(68, 156, 238, 0.699)" : "1px dashed grey"};
   &:nth-of-type(1) {
     margin-bottom: 10px;
+  }
+  div {
+    padding: 0;
+    div {
+      display: none;
+    }
   }
 `;
 
@@ -116,26 +130,15 @@ const Toggle = styled.input`
 `;
 
 export default function PanelMain() {
-  const [spaceEvenly, setSpaceEvenly] = useState(false);
-  const [updateItems, setUpdateItems] = useState(false);
-  const {
-    showPanel,
-    panelColor,
-    panelSize,
-    panelRows,
-    panelItems,
-    setPanelItems
-  } = useContext(PanelContext);
+  const [spacing, setSpacing] = useState(1);
+  const [currentRow, setCurrentRow] = useState("row-0");
+  const [rowConfigs, setRowConfigs] = useState([1]);
+  const [rowIdNumner, setRowIdNumber] = useState(0);
+  const { showPanel, panelColor, panelRows, panelSize } = useContext(
+    PanelContext
+  );
 
-  useEffect(() => {
-    console.log("useEffect ran");
-    console.log(panelItems);
-    setPanelItems(ItemStore);
-    if (updateItems) {
-      setPanelItems(ItemStore);
-      setUpdateItems(false);
-    }
-  });
+  useEffect(() => {});
 
   const submitPanel = e => {
     e.preventDefault();
@@ -148,8 +151,6 @@ export default function PanelMain() {
         image: canvas.toDataURL("image/png")
       };
 
-      console.log(data);
-
       fetch("http://localhost:8888/api/v1/contact", {
         method: "POST",
         mode: "cors",
@@ -161,67 +162,99 @@ export default function PanelMain() {
     });
   };
 
+  const handleSelectedRow = e => {
+    const target = e.target;
+    const id = target.id;
+
+    if (currentRow !== target.id) {
+      document.getElementById(currentRow).classList.remove("active");
+      document.getElementById(target.id).classList.add("active");
+      setCurrentRow(target.id);
+      let rowId = id.toString().split("row-");
+      setRowIdNumber(rowId[1]);
+      return rowConfigs[rowId[1]] ? null : setRowConfigs([...rowConfigs, 1]);
+    }
+  };
+
   const renderRows = () => {
     const rows = [];
     for (let i = 0; i < panelRows; i++) {
       rows.push(
         <ItemRows
-          spaceBetween={spaceEvenly}
+          spacing={spacing}
           id={"row-" + i}
           className="item-section"
+          selectedRow={handleSelectedRow}
+          row={currentRow}
+          rowNum={rowIdNumner}
         ></ItemRows>
       );
     }
     return rows;
   };
 
-  const RenderItems = () => {
-    console.log("rendering items");
-
-    const itemList = panelItems.map(item => {
-      return (
-        <Item
-          id={item.id}
-          key={item.id}
-          className="item"
-          draggable="true"
-          updateItems={setUpdateItems}
-        >
-          <ItemImg src={item.src}></ItemImg>
-        </Item>
-      );
-    });
-
-    return itemList;
-  };
-
   const handleInputChange = event => {
     const target = event.target;
-    const value = target.type === "checkbox" ? target.checked : target.value;
-    const name = target.name;
+    const value = target.value;
+    let newConfigs = rowConfigs;
 
-    setSpaceEvenly(value);
+    for (let i = 0; i < rowConfigs.length; i++) {
+      if (rowIdNumner == i) {
+        newConfigs[i] = value;
+      }
+    }
+
+    setRowConfigs(newConfigs);
+
+    if (value == 1) {
+      document.getElementById(`row-${rowIdNumner}`).style.justifyContent =
+        "start";
+    } else if (value == 2) {
+      document.getElementById(`row-${rowIdNumner}`).style.justifyContent =
+        "space-evenly";
+    } else if (value == 3) {
+      document.getElementById(`row-${rowIdNumner}`).style.justifyContent =
+        "space-around";
+    } else if (value == 4) {
+      document.getElementById(`row-${rowIdNumner}`).style.justifyContent =
+        "space-between";
+    } else if (value == 5) {
+      document.getElementById(`row-${rowIdNumner}`).style.justifyContent =
+        "center";
+    } else if (value == 6) {
+      document.getElementById(`row-${rowIdNumner}`).style.justifyContent =
+        "flex-end";
+    }
+
+    setSpacing(parseInt(value));
   };
 
   return (
     <PanelSection show={showPanel}>
       <ItemOptions id="items-container-1" className="item-section">
-        {RenderItems()}
+        <PanelItems />
       </ItemOptions>
       <div className="panel-controls">
-        <ul>
-          <li>
-            <label>Spave evenly</label>
-            <Toggle
-              class="toggle"
-              type="checkbox"
-              name="space-evenly"
-              onChange={handleInputChange}
-            />
-          </li>
-        </ul>
+        <div className="slide-container">
+          <label htmlFor="myRange">Spacing</label>
+          <input
+            type="range"
+            min="1"
+            max="6"
+            defaultValue="1"
+            className="slider"
+            id="myRange"
+            onChange={handleInputChange}
+          ></input>
+        </div>
       </div>
-      <Panel show={showPanel} rows={panelRows} color={panelColor} id="panel">
+      <Panel
+        show={showPanel}
+        size={panelSize}
+        rows={panelRows}
+        color={panelColor}
+        id="panel"
+      >
         {renderRows()}
       </Panel>
       <SubmitButton onClick={submitPanel}>Get Quote Request</SubmitButton>
