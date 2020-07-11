@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Header from "../Header/Header";
 import ColorPickerForm from "../ColorPickerForm/ColorPickerForm";
 import PanelSizeForm from "../PanelSizeForm/PanelSizeForm";
@@ -7,7 +7,7 @@ import PanelContext from "../../contexts/PanelContext";
 import styled, { css } from "styled-components";
 
 const Main = styled.main`
-  max-width: 1200px;
+  max-width: 1300px;
   height: 100vh;
   margin: auto;
   padding: 20px;
@@ -17,11 +17,11 @@ const Main = styled.main`
 `;
 
 const PanelContainer = styled.div`
-  background-color: ${props => (props.background ? "grey" : null)};
+  background-color: ${(props) => (props.background ? "grey" : null)};
   display: grid;
   grid-template-columns: 1fr 2fr 2fr;
   grid-template-rows: auto;
-  ${props => changeLayout(props)}
+  ${(props) => changeLayout(props)}
   padding: 20px;
   border-radius: 5px;
   box-shadow: 0px 0px 80px #404040;
@@ -55,8 +55,11 @@ function changeLayout(props) {
 
 function App() {
   const panel = useContext(PanelContext);
-
   console.log("entire app rerender");
+
+  useEffect(() => {
+    console.log(panel);
+  });
 
   return (
     <>

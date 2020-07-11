@@ -59,7 +59,7 @@ function PanelSizeForm(props) {
     panel.setShowSizeForm(true);
   }, []);
 
-  const handlePanelSizeSubmit = ev => {
+  const handlePanelSizeSubmit = (ev) => {
     ev.preventDefault();
 
     const { length, width, num_of_rows } = ev.target;
@@ -81,12 +81,12 @@ function PanelSizeForm(props) {
     }
   };
 
-  const setRows = e => {
+  const setRows = (e) => {
     panel.setPanelRows(e.target.value);
     sessionStorage.setItem("panel_rows", e.target.value);
   };
 
-  const handleSizeChange = e => {
+  const handleSizeChange = (e) => {
     const target = e.target;
     const name = target.name;
 

@@ -4,7 +4,7 @@ const PanelContext = React.createContext({});
 
 export default PanelContext;
 
-export const PanelProvider = props => {
+export const PanelProvider = (props) => {
   const [error, setError] = useState(null);
   const [showSizeForm, setShowSizeForm] = useState(null);
   const [showColorPicker, setShowColorPicker] = useState(null);
@@ -12,32 +12,37 @@ export const PanelProvider = props => {
   const [panelColor, setPanelColor] = useState(null);
   const [panelSize, setPanelSize] = useState({
     width: null,
-    length: null
+    length: null,
   });
   const [panelRows, setPanelRows] = useState(null);
   const [panelItems, setPanelItems] = useState([]);
   const [updateItems, setUpdateItems] = useState(false);
+  const [currentRow, setCurrentRow] = useState(null);
 
-  const setUpdateItemsFn = bool => {
+  const setCurrentRowFn = (row) => {
+    setCurrentRow(row);
+  };
+
+  const setUpdateItemsFn = (bool) => {
     setUpdateItems(bool);
   };
 
-  const setPanelItemsFn = items => {
+  const setPanelItemsFn = (items) => {
     setPanelItems(items);
   };
 
-  const setPanelSizeFn = e => {
+  const setPanelSizeFn = (e) => {
     setPanelSize({
       ...panelSize,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
-  const setPanelRowsFn = num => {
+  const setPanelRowsFn = (num) => {
     setPanelRows(num);
   };
 
-  const setErrorFn = error => {
+  const setErrorFn = (error) => {
     setError(error);
   };
 
@@ -45,19 +50,19 @@ export const PanelProvider = props => {
     setError(null);
   };
 
-  const setShowSizeFormFn = bool => {
+  const setShowSizeFormFn = (bool) => {
     setShowSizeForm(bool);
   };
 
-  const setShowColorPickerFn = bool => {
+  const setShowColorPickerFn = (bool) => {
     setShowColorPicker(bool);
   };
 
-  const setShowPanelFn = bool => {
+  const setShowPanelFn = (bool) => {
     setShowPanel(bool);
   };
 
-  const setPanelColorFn = color => {
+  const setPanelColorFn = (color) => {
     setPanelColor(color);
   };
 
@@ -80,7 +85,9 @@ export const PanelProvider = props => {
     panelItems: panelItems,
     setPanelItems: setPanelItemsFn,
     updateItems: updateItems,
-    setUpdateItems: setUpdateItemsFn
+    setUpdateItems: setUpdateItemsFn,
+    currentRow: currentRow,
+    setCurrentRow: setCurrentRowFn,
   };
 
   return (

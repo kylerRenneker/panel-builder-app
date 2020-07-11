@@ -1,15 +1,15 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect, Fragment } from "react";
 import styled from "styled-components";
 import PanelContext from "../../contexts/PanelContext";
 import PanelRow from "../PanelRow/PanelRow";
-import html2canvas from "html2canvas";
 import PanelItems from "../PanelItems/PanelItems";
 import "./_rangSlider.scss";
+import Modal from "../Modal/Modal";
 
 const Panel = styled.div`
-  display: ${p => (p.show ? null : `none`)};
-  background-color: ${p => p.color};
-  ${p => {
+  display: ${(p) => (p.show ? null : `none`)};
+  background-color: ${(p) => p.color};
+  ${(p) => {
     const width = p.size.width;
     const length = p.size.length;
 
@@ -25,14 +25,14 @@ const Panel = styled.div`
   box-shadow: 0px 15px 25px #505050;
   display: flex;
   flex-direction: column;
-  ${p => (p.rows == 1 ? "justify-content: center" : null)}
+  ${(p) => (p.rows == 1 ? "justify-content: center" : null)}
   align-items: center;
   justify-content: center;
   padding: 10px;
 `;
 
 const PanelSection = styled.section`
-  display: ${p => (p.show ? `flex` : `none`)};
+  display: ${(p) => (p.show ? `flex` : `none`)};
   grid-area: panel;
   flex-direction: column;
 `;
@@ -54,7 +54,7 @@ const ItemRows = styled(PanelRow)`
   padding-top: 4px;
   align-items: center;
   display: flex;
-  border: ${p =>
+  border: ${(p) =>
     p.id === p.row ? "3px solid rgba(68, 156, 238, 0.699)" : "1px dashed grey"};
   &:nth-of-type(1) {
     margin-bottom: 10px;
@@ -134,35 +134,38 @@ export default function PanelMain() {
   const [currentRow, setCurrentRow] = useState("row-0");
   const [rowConfigs, setRowConfigs] = useState([1]);
   const [rowIdNumner, setRowIdNumber] = useState(0);
-  const { showPanel, panelColor, panelRows, panelSize } = useContext(
-    PanelContext
-  );
+  const [showModal, setShowModal] = useState(false);
+  const {
+    showPanel,
+    panelColor,
+    panelRows,
+    panelSize,
+    setPanelRows,
+  } = useContext(PanelContext);
 
-  useEffect(() => {});
+  useEffect(() => {
+    console.log("panelMain re-rendering");
+  });
 
-  const submitPanel = e => {
-    e.preventDefault();
-
-    html2canvas(document.querySelector("#panel")).then(canvas => {
-      const data = {
-        email: "Krenneker16@gmail.com",
-        title: "panelTest",
-        message: "This is a test for the panel builder app",
-        image: canvas.toDataURL("image/png")
-      };
-
-      fetch("http://localhost:8888/api/v1/contact", {
-        method: "POST",
-        mode: "cors",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(data)
-      }).then(res => res.json());
-    });
+  const renderModal = () => {
+    setShowModal(true);
   };
 
-  const handleSelectedRow = e => {
+  // const handleAddRow = () => {
+  //   const numOfRows = parseInt(panelRows) + 1;
+  //   setPanelRows(numOfRows);
+  // };
+
+  // const handleDeleteRow = (e) => {
+  //   console.log(e, currentRow);
+  //   document.getElementById(currentRow).remove();
+  //   const numOfRows = parseInt(panelRows) - 1;
+  //   setPanelRows(numOfRows);
+  //   setCurrentRow(numOfRows);
+  //   console.log(typeof panelRows);
+  // };
+
+  const handleSelectedRow = (e) => {
     const target = e.target;
     const id = target.id;
 
@@ -193,7 +196,7 @@ export default function PanelMain() {
     return rows;
   };
 
-  const handleInputChange = event => {
+  const handleInputChange = (event) => {
     const target = event.target;
     const value = target.value;
     let newConfigs = rowConfigs;
@@ -230,34 +233,46 @@ export default function PanelMain() {
   };
 
   return (
-    <PanelSection show={showPanel}>
-      <ItemOptions id="items-container-1" className="item-section">
-        <PanelItems />
-      </ItemOptions>
-      <div className="panel-controls">
-        <div className="slide-container">
-          <label htmlFor="myRange">Spacing</label>
-          <input
-            type="range"
-            min="1"
-            max="6"
-            defaultValue="1"
-            className="slider"
-            id="myRange"
-            onChange={handleInputChange}
-          ></input>
+    <Fragment>
+      <PanelSection show={showPanel}>
+        <ItemOptions id="items-container-1" className="item-section">
+          <PanelItems />
+        </ItemOptions>
+        <div className="panel-controls">
+          <div className="slide-container">
+            <label htmlFor="myRange">Spacing</label>
+            <input
+              type="range"
+              min="1"
+              max="6"
+              defaultValue="1"
+              className="slider"
+              id="myRange"
+              onChange={handleInputChange}
+            ></input>
+          </div>
         </div>
-      </div>
-      <Panel
-        show={showPanel}
-        size={panelSize}
-        rows={panelRows}
-        color={panelColor}
-        id="panel"
-      >
-        {renderRows()}
-      </Panel>
-      <SubmitButton onClick={submitPanel}>Get Quote Request</SubmitButton>
-    </PanelSection>
+        <div>
+          <Panel
+            show={showPanel}
+            size={panelSize}
+            rows={panelRows}
+            color={panelColor}
+            id="panel"
+          >
+            {renderRows()}
+          </Panel>
+          {/* <button className="btn btn-addRow" onClick={handleAddRow}>
+          ADD ROW
+        </button>
+        <button className="btn btn-delRow" onClick={(e) => handleDeleteRow(e)}>
+          DELETE ROW
+        </button> */}
+        </div>
+
+        <SubmitButton onClick={renderModal}>FREE Quote Request</SubmitButton>
+      </PanelSection>
+      {showModal ? <Modal /> : null}
+    </Fragment>
   );
 }
