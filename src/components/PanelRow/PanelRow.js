@@ -3,7 +3,7 @@ import React, { useState } from "react";
 function PanelRow(props) {
   const [active, setActive] = useState(false);
 
-  const drop = e => {
+  const drop = (e) => {
     e.preventDefault();
 
     console.log(e.target);
@@ -19,12 +19,12 @@ function PanelRow(props) {
     }
   };
 
-  const dragOver = e => {
+  const dragOver = (e) => {
     e.preventDefault();
     e.stopPropagation();
   };
 
-  const handleRowSelection = e => {
+  const handleRowSelection = (e) => {
     const target = e.target;
   };
 
