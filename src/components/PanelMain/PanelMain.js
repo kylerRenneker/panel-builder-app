@@ -68,18 +68,25 @@ const ItemRows = styled(PanelRow)`
 `;
 
 const SubmitButton = styled.button`
-  width: 180px;
-  height: 32px;
   border-radius: 5px;
-  border: 2px solid #11b5f6;
+  border: none;
   box-shadow: 1px 5px 5px #b7b7b7;
   font-size: 1rem;
-  color: #11b5f6;
-  margin: 20px 0px;
-  padding: 5px;
+  color: #ffffff;
+  margin: 40px 0 20px 0;
+  padding: 10px;
   font-weight: 600;
   align-self: flex-end;
   cursor: pointer;
+  background-color: #11b5f6;
+  transition: 0.3s;
+  :hover {
+    box-shadow: none;
+  }
+
+  :focus {
+    outline: none;
+  }
 `;
 
 const Toggle = styled.input`
@@ -272,7 +279,7 @@ export default function PanelMain() {
 
         <SubmitButton onClick={renderModal}>FREE Quote Request</SubmitButton>
       </PanelSection>
-      {showModal ? <Modal /> : null}
+      {showModal ? <Modal setShow={setShowModal} /> : null}
     </Fragment>
   );
 }

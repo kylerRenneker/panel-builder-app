@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import html2canvas from "html2canvas";
 import "./_modal.scss";
 
-const Modal = () => {
+const Modal = (props) => {
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -43,37 +43,49 @@ const Modal = () => {
   };
 
   return (
-    <form className="modalForm">
-      <input
-        type="text"
-        name="firstName"
-        onChange={handleChange}
-        placeholder="First Name"
-      />
-      <input
-        type="text"
-        name="lastName"
-        onChange={handleChange}
-        placeholder="Last Name"
-      />
-      <input
-        type="email"
-        name="email"
-        onChange={handleChange}
-        placeholder="Email"
-      />
-      <input
-        type="phone"
-        name="phone"
-        onChange={handleChange}
-        placeholder="Phone"
-      />
-      <textarea
-        onChange={handleChange}
-        placeholder="Additional Comments or Requests"
-      />
-      <button onSubmit={submitPanel}>GET FREE QUOTE</button>
-    </form>
+    <div className="formContainer">
+      <form className="modalForm">
+        <div className="closeBtn" onClick={() => props.setShow(false)}>
+          x
+        </div>
+        <input
+          type="text"
+          name="firstName"
+          onChange={handleChange}
+          placeholder="First Name"
+          className="submitFormInput"
+        />
+        <input
+          type="text"
+          name="lastName"
+          onChange={handleChange}
+          placeholder="Last Name"
+          className="submitFormInput"
+        />
+        <input
+          type="email"
+          name="email"
+          onChange={handleChange}
+          placeholder="Email"
+          className="submitFormInput"
+        />
+        <input
+          type="phone"
+          name="phone"
+          onChange={handleChange}
+          placeholder="Phone"
+          className="submitFormInput"
+        />
+        <textarea
+          onChange={handleChange}
+          placeholder="Additional Comments or Requests"
+          className="submitFormTextArea"
+        />
+        <button onSubmit={submitPanel} className="submitButton">
+          Get Quote
+        </button>
+      </form>
+    </div>
   );
 };
 

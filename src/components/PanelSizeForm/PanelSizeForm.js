@@ -34,19 +34,20 @@ const Select = styled.select`
 `;
 
 const Button = styled.button`
-  width: 100px;
-  height: 32px;
   border-radius: 5px;
-  background-color: #373f51;
-  border: 2px solid #11b5f6;
+  border: none;
   box-shadow: 1px 5px 5px #b7b7b7;
   font-size: 1rem;
-  color: #11b5f6;
-  margin: 0 auto;
+  color: #ffffff;
+  margin: 40px 0 20px 0;
+  padding: 0.5rem 2rem;
   font-weight: 600;
+  align-self: center;
+  cursor: pointer;
+  background-color: #11b5f6;
+  transition: 0.3s;
   :hover {
     box-shadow: none;
-    transition: 0.5s;
   }
 `;
 
