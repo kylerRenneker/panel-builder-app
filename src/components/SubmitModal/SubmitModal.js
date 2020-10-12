@@ -54,9 +54,9 @@ const Modal = (props) => {
           image: canvas.toDataURL("image/png"),
         };
 
-        fetch("https://panel-builder-api.herokuapp.com:8888/api/v1/contact", {
+        fetch("https://panel-builder-api.herokuapp.com/api/v1/contact", {
           method: "POST",
-          mode: "cors",
+          // mode: "cors",
           headers: {
             "Content-Type": "application/json",
           },
@@ -67,6 +67,8 @@ const Modal = (props) => {
               setFormSuccess(true);
               setLoading(false);
               res.json();
+            } else {
+              throw new Error(res);
             }
           })
           .catch((error) => {
