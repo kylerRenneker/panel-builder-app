@@ -6,7 +6,7 @@
   top: 0;
   left: 0;
 
-  .modalForm {
+  .formContents {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -16,7 +16,11 @@
     padding: 20px;
     background-color: #00b7ff;
     border-radius: 15px;
+  }
 
+  .modalForm {
+    display: flex;
+    flex-direction: column;
     .submitFormInput {
       padding: 10px 10px 10px 0;
       width: 36rem;
@@ -85,4 +89,15 @@
     font-size: 2rem;
     cursor: pointer;
   }
+}
+
+.successMessage {
+  color: white;
+}
+
+.backToMiller {
+  cursor: pointer;
+  text-decoration: none;
+  color: #ffffff;
+  padding-left: 10px;
 }

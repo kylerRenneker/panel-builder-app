@@ -5,6 +5,7 @@ import PanelSizeForm from "../PanelSizeForm/PanelSizeForm";
 import PanelMain from "../PanelMain/PanelMain";
 import PanelContext from "../../contexts/PanelContext";
 import styled, { css } from "styled-components";
+import WelcomeModal from "../WelcomeModal/WelcomeModal";
 
 const Main = styled.main`
   max-width: 1300px;
@@ -30,21 +31,21 @@ const PanelContainer = styled.div`
 
 function changeLayout(props) {
   const { panel } = props;
-  if (panel.showSizeForm) {
+  if (panel.showSizeForm && !panel.showColorPicker) {
     return css`
       grid-template-areas:
         "size size size"
         "size size size"
         "size size size";
     `;
-  } else if (panel.showColorPicker) {
+  } else if (panel.showSizeForm && panel.showColorPicker && !panel.showPanel) {
     return css`
       grid-template-areas:
         "size color color"
         "size color color"
         "size color color";
     `;
-  } else {
+  } else if (panel.showSizeForm && panel.showColorPicker && panel.showPanel) {
     return css`
       grid-template-areas:
         "size panel panel"
@@ -66,6 +67,7 @@ function App() {
       <Header />
       <Main>
         <PanelContainer panel={panel}>
+          {/* <WelcomeModal /> */}
           <PanelSizeForm />
           <ColorPickerForm />
           <PanelMain />

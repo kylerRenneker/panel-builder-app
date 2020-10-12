@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import styled, { css } from "styled-components";
 import PanelContext from "../../contexts/PanelContext";
 import { Error } from "../Error/Error";
@@ -52,13 +52,17 @@ const Button = styled.button`
 `;
 
 function PanelSizeForm(props) {
+  const [initialLoad, setInitialLoad] = useState(true);
   const panel = useContext(PanelContext);
 
   useEffect(() => {
     console.log("panelSize rendered");
-    panel.clearError(null);
-    panel.setShowSizeForm(true);
-  }, []);
+    if (panel && initialLoad) {
+      panel.clearError(null);
+      panel.setShowSizeForm(true);
+      setInitialLoad(false);
+    }
+  }, [panel, initialLoad]);
 
   const handlePanelSizeSubmit = (ev) => {
     ev.preventDefault();
@@ -71,7 +75,6 @@ function PanelSizeForm(props) {
       panel.setError("Width must be between 4 and 11 inches");
     } else {
       panel.clearError(null);
-      panel.setShowSizeForm(false);
       panel.setShowColorPicker(true);
 
       panel.setPanelRows(num_of_rows.value);
@@ -91,9 +94,9 @@ function PanelSizeForm(props) {
     const target = e.target;
     const name = target.name;
 
-    if (name == "length") {
+    if (name === "length") {
       panel.setPanelSize(e);
-    } else if (name == "width") {
+    } else if (name === "width") {
       panel.setPanelSize(e);
     }
 

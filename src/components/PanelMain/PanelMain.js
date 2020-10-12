@@ -4,7 +4,7 @@ import PanelContext from "../../contexts/PanelContext";
 import PanelRow from "../PanelRow/PanelRow";
 import PanelItems from "../PanelItems/PanelItems";
 import "./_rangSlider.scss";
-import Modal from "../Modal/Modal";
+import SubmitModal from "../SubmitModal/SubmitModal";
 
 const Panel = styled.div`
   display: ${(p) => (p.show ? null : `none`)};
@@ -50,6 +50,7 @@ const ItemOptions = styled(PanelRow)`
 
 const ItemRows = styled(PanelRow)`
   width: 100%;
+  cursor: pointer;
   min-height: 25%;
   padding-top: 4px;
   align-items: center;
@@ -279,7 +280,7 @@ export default function PanelMain() {
 
         <SubmitButton onClick={renderModal}>FREE Quote Request</SubmitButton>
       </PanelSection>
-      {showModal ? <Modal setShow={setShowModal} /> : null}
+      {showModal ? <SubmitModal setShow={setShowModal} /> : null}
     </Fragment>
   );
 }

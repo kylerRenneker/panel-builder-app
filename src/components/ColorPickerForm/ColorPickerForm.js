@@ -5,7 +5,7 @@ import { List } from "../List/List";
 
 const ColorForm = styled.form`
   grid-area: color;
-  ${p => panelColorDisplay(p)}
+  ${(p) => panelColorDisplay(p)}
   flex-direction: column;
   grid-area: color;
   justify-self: center;
@@ -42,7 +42,7 @@ const ListItem = styled.li`
   :hover {
     border: 2px solid #373f51;
   }
-  ${p => (p.color === p.panelColor ? `border: 2px solid #373F51;` : null)}
+  ${(p) => (p.color === p.panelColor ? `border: 2px solid #373F51;` : null)}
 `;
 const Title = styled.h3`
   text-align: center;
@@ -52,7 +52,7 @@ const ColorName = styled.span`
   margin: auto;
 `;
 
-const panelColorDisplay = p => {
+const panelColorDisplay = (p) => {
   if (p.showColorPicker) {
     return `display: flex;`;
   } else if (p.showPanel) {
@@ -67,18 +67,16 @@ export default function ColorPickerForm() {
     panelColor,
     setPanelColor,
     setShowPanel,
-    setShowColorPicker,
     showPanel,
-    showColorPicker
+    showColorPicker,
   } = useContext(PanelContext);
 
   console.log("ColorPickerForm rendered");
 
-  const chooseColor = e => {
+  const chooseColor = (e) => {
     setPanelColor(e);
     sessionStorage.setItem("panel_color", e);
     setShowPanel(true);
-    setShowColorPicker(false);
   };
 
   return (

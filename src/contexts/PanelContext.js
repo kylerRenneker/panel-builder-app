@@ -6,7 +6,7 @@ export default PanelContext;
 
 export const PanelProvider = (props) => {
   const [error, setError] = useState(null);
-  const [showSizeForm, setShowSizeForm] = useState(null);
+  const [showSizeForm, setShowSizeForm] = useState();
   const [showColorPicker, setShowColorPicker] = useState(null);
   const [showPanel, setShowPanel] = useState(null);
   const [panelColor, setPanelColor] = useState(null);
