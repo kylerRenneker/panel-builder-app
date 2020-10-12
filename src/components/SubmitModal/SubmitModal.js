@@ -56,7 +56,7 @@ const Modal = (props) => {
 
         fetch("https://panel-builder-api.herokuapp.com/api/v1/contact", {
           method: "POST",
-          // mode: "cors",
+          mode: "cors",
           headers: {
             "Content-Type": "application/json",
           },
